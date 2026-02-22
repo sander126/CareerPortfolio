@@ -1,0 +1,33 @@
+## .NET / Visual Studio ##
+bin/
+obj/
+out/
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.sln.docstates
+
+## User Secrets (Just in case you move them) ##
+secrets.json
+.microsoft.dotnet.secretmanager.list.text
+
+## SENSITIVE CONFIGURATION ##
+# Ignore the actual appsettings that contain secrets
+appsettings.json
+appsettings.Development.json
+
+## Databases ##
+*.mdf
+*.ldf
+*.sdf
+*.db
+*.db-shm
+*.db-wal
+
+## OS files ##
+.DS_Store
+Thumbs.db
+
+## Node.js (If you use LibMan or npm for CSS/JS) ##
+node_modules/

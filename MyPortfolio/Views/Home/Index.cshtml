@@ -1,0 +1,193 @@
+﻿@model MyPortfolio.ViewModels.HomeIndexViewModel
+@{
+    ViewData["Title"] = "Home";
+}
+<style>
+    .main-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+    }
+
+
+
+    #introduction {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.1rem;
+    }
+
+    .sectionHeader {
+        margin-bottom: 2rem;
+    }
+
+    #profile {
+        background-image: url('https://res.cloudinary.com/dndu7twln/image/upload/v1771311543/background1_abafcg.gif');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    #side-navbar {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        background-color: #f8f9fa; /* light background */
+        border-radius: 8px 0 0 8px; /* rounded left corners */
+        padding: 0.5rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+
+        #side-navbar a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            margin: 0.5rem 0;
+            font-size: 1.5rem; /* bigger for cute icons */
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+            #side-navbar a:hover {
+                background-color: #ffc0cb; /* soft pink hover */
+                color: #fff;
+                transform: scale(1.2);
+                border-radius: 50%;
+            }
+</style>
+
+<nav id="side-navbar">
+    <a href="#profile" title="Profile">👤</a>
+    <a href="#work" title="Work Experience">💼</a>
+    <a href="#freelance" title="Freelance Experience">🖋️</a>
+</nav>
+
+<section id="profile" class="vh-100 d-flex align-items-center">
+    <div class="container text-center">
+        <div class="row align-items-start">
+            <div class="col">
+            </div>
+            <div class="col">
+                <h1 class="main-name mb-5">CHRISTIAN DAVE AQUINO</h1>
+
+                <p id="introduction">Power Platform Developer specializing in automation, cloud solutions, and AI-enhanced workflows. I build scalable applications using Power Apps, Power Automate, and Dataverse, helping organizations modernize processes, improve productivity, and turn manual operations into efficient digital systems.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="work" class="vh-100  d-flex align-items-center bg-secondary text-white">
+    <div class="container text-center">
+        <h1 class="sectionHeader">Work Experience</h1>
+        <div class="row justify-content-center">
+
+            @if (Model.WorkExperiences.Any())
+{
+                @foreach (var experience in Model.WorkExperiences)
+                {
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <img class="p-4 w-50 mx-auto d-block" src="@experience.CompanyLogoUrl">
+                                <a class="" target="_blank" rel="noopener noreferrer" href="@experience.CompanyWebsite"><h5 class="card-title">@experience.Company</h5></a>
+                                <p class="card-text fw-bold">@experience.Position</p>
+                                <p class="card-text">
+                                @experience.StartDate - @(experience.EndDate.HasValue? experience.EndDate.Value.ToString("MMM yyyy") : "Present")
+                                </p>
+                                <hr />
+                                <button class="btn btn-primary" onclick="openExperience(@experience.Id)">Learn more</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No work experiences found.</p>
+            }
+        </div>
+    </div>
+</section>
+
+<section id="freelance" class="vh-100 d-flex align-items-center bg-dark text-white">
+    <div class="container text-center">
+        <h1 class="sectionHeader">Freelance Work</h1>
+        <div class="row justify-content-center">
+
+            @if (Model.FreelanceExperiences.Any())
+            {
+                @foreach (var experience in Model.FreelanceExperiences)
+                {
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <img class="p-4 w-50 mx-auto d-block" src="@experience.CompanyLogoUrl">
+                                <a class="" target="_blank" rel="noopener noreferrer" href="@experience.CompanyWebsite"><h5 class="card-title">@experience.Company</h5></a>
+                                <p class="card-text fw-bold">@experience.Position</p>
+                                <p class="card-text">
+                                    @experience.StartDate - @(experience.EndDate.HasValue? experience.EndDate.Value.ToString("MMM yyyy") : "Present")
+                                </p>
+                                <hr />
+                                <button class="btn btn-primary" onclick="openExperience(@experience.Id)">Learn more</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No work experiences found.</p>
+            }
+
+
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="experienceModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="modalContent">
+            <!-- Partial view loads here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    async function openExperience(id) {
+        const modalContent = document.getElementById("modalContent");
+        const modalElement = document.getElementById("experienceModal");
+
+        modalContent.innerHTML = `
+            <div class="text-center my-5">
+                <div class="spinner-border text-primary"></div>
+            </div>
+        `;
+
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+
+        try {
+            const response = await fetch(`/Home/GetExperience?id=${id}`);
+
+            if (!response.ok) {
+                throw new Error("Failed to load experience");
+            }
+
+            const html = await response.text();
+            modalContent.innerHTML = html;
+        } catch (err) {
+            modalContent.innerHTML = `
+                <div class="text-center text-danger my-5">
+                    <p>Unable to load experience.</p>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            `;
+            console.error(err);
+        }
+    }
+</script>

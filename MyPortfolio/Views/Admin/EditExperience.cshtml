@@ -1,0 +1,108 @@
+﻿@model MyPortfolio.Models.Experience
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Edit Experience</h3>
+        </div>
+        <form asp-action="EditExperience" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Company" class="form-label fw-bold">Company *</label>
+                        <input asp-for="Company" class="form-control" placeholder="Enter company name" />
+                        <span asp-validation-for="Company" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Address" class="form-label fw-bold">Address</label>
+                        <input asp-for="Address" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Position" class="form-label fw-bold">Position</label>
+                        <input asp-for="Position" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="ExperienceType" class="form-label fw-bold">Experience Type</label>
+                        <select asp-for="ExperienceType" class="form-select">
+                            <option value="">-- Select Type --</option>
+                            <option value="Work">Work</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                        <span asp-validation-for="ExperienceType" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label asp-for="StartDate" class="form-label fw-bold">Start Date</label>
+                        <input asp-for="StartDate" type="date" class="form-control" />
+                        <span asp-validation-for="StartDate" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-5" id="endDateContainer">
+                        <label asp-for="EndDate" class="form-label fw-bold">End Date</label>
+                        <input asp-for="EndDate" type="date" class="form-control" id="endDateInput" />
+                    </div>
+
+                    <div class="col-md-2 d-flex align-items-end">
+                        <div class="form-check mb-2">
+                            <input asp-for="CurrentlyWorking" class="form-check-input" id="currentWorkCheck" />
+                            <label class="form-check-label fw-bold" asp-for="CurrentlyWorking">Present</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="KeyResponsibilities" class="form-label fw-bold">Key Responsibilities</label>
+                        <textarea asp-for="KeyResponsibilities" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="CompanyLogoUrl" class="form-label fw-bold">Company Logo Url</label>
+                        <textarea asp-for="CompanyLogoUrl" class="form-control"></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <label asp-for="CompanyWebsite" class="form-label fw-bold">Company Website</label>
+                        <textarea asp-for="CompanyWebsite" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2">
+                <a asp-action="Experience" class="btn btn-secondary">Close</a>
+                <button type="submit" class="btn btn-primary">Save Experience</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkbox = document.getElementById('currentWorkCheck');
+            const endDateContainer = document.getElementById('endDateContainer');
+            const endDateInput = document.getElementById('endDateInput');
+
+            function toggleEndDate() {
+                if (checkbox.checked) {
+                    endDateContainer.style.opacity = "0.5";
+                    endDateInput.value = "";
+                    endDateInput.disabled = true;
+                } else {
+                    endDateContainer.style.opacity = "1";
+                    endDateInput.disabled = false;
+                }
+            }
+
+            checkbox.addEventListener('change', toggleEndDate);
+
+            // This is vital for EDIT: It checks the status as soon as the page loads
+            toggleEndDate();
+        });
+    </script>
+}

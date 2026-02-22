@@ -1,0 +1,19 @@
+﻿@{
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<div class="col-md-8 mx-auto">
+    <nav class="nav border-bottom justify-content-center gap-4 pb-2">
+        <a class="nav-link @(action == "Index" ? "active fw-bold" : "")"
+           asp-controller="Admin" asp-action="Index">Profile</a>
+
+        <a class="nav-link @(action == "Experience" ? "active fw-bold" : "")"
+           asp-controller="Admin" asp-action="Experience">Experience</a>
+
+        <a class="nav-link @(action == "Education" ? "active fw-bold" : "")"
+           asp-controller="Admin" asp-action="Education">Education</a>
+
+        <a class="nav-link @(action == "Skill" ? "active fw-bold" : "")"
+           asp-controller="Admin" asp-action="Skill">Skills</a>
+    </nav>
+</div>

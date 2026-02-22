@@ -1,0 +1,117 @@
+﻿@model MyPortfolio.Models.Profile
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<style>
+    .nav-link {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+    }
+    /* Ensures the toast stays on top of other elements */
+    .toast-container {
+        z-index: 1055;
+    }
+</style>
+
+
+<div class="container">
+
+
+    @await Html.PartialAsync("_AdminNav")
+
+        <form asp-action="Edit" method="post" id="profile-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label asp-for="FullName" class="form-label fw-bold">Full Name</label>
+                    <input asp-for="FullName" class="form-control" readonly />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="Email" class="form-label fw-bold"></label>
+                    <input asp-for="Email" class="form-control" readonly />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label asp-for="Mobile" class="form-label fw-bold">Mobile Number</label>
+                    <input asp-for="Mobile" class="form-control" readonly />
+                </div>
+
+            <div class="col-md-4 mb-3">
+                <label asp-for="HomePhone" class="form-label fw-bold">Home Phone</label>
+                <input asp-for="HomePhone" class="form-control" readonly />
+            </div>
+
+                <div class="col-md-12 mb-3">
+                    <label asp-for="AddressLine1" class="form-label fw-bold">Address Line 1</label>
+                    <input asp-for="AddressLine1" class="form-control mb-2" readonly />
+                <label asp-for="AddressLine2" class="form-label fw-bold">Address Line 2</label>
+
+                    <input asp-for="AddressLine2" class="form-control mb-2" readonly />
+                <label asp-for="AddressLine3" class="form-label fw-bold">Address Line 3</label>
+
+                    <input asp-for="AddressLine3" class="form-control" readonly />
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="button" class="btn btn-primary" id="edit-btn" onclick="enableEdit()">Edit Profile</button>
+                <button type="submit" class="btn btn-success" id="save-btn" style="display:none;">Save Changes</button>
+                <button type="button" class="btn btn-outline-secondary" id="cancel-btn" style="display:none;" onclick="cancelEdit()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                @TempData["SuccessMessage"]
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        function enableEdit() {
+  
+            // Select all inputs except the hidden ID field
+            const inputs = document.querySelectorAll('#profile-form input:not([type="hidden"])');
+
+            inputs.forEach(input => {
+                input.removeAttribute('readonly');
+                input.classList.add('bg-white'); // Visual cue that it's editable
+            });
+
+            document.getElementById('edit-btn').style.display = 'none';
+            document.getElementById('save-btn').style.display = 'inline-block';
+            document.getElementById('cancel-btn').style.display = 'inline-block';
+        }
+
+        function cancelEdit() {
+            // Simplest way to "reset" the form to original values is a reload
+            // Alternatively, you can toggle readonly back and call form.reset()
+            window.location.reload();
+        }
+
+        // Show toast if TempData has success message
+        document.addEventListener('DOMContentLoaded', function () {
+            const message = "@TempData["SuccessMessage"]";
+            if (message.trim().length > 0) {
+                const toastEl = document.getElementById('successToast');
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        });
+    </script>
+}

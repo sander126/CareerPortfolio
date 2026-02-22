@@ -1,0 +1,45 @@
+﻿@model  Experience
+
+<style>
+    ul {
+        margin-bottom: 20px;
+    }
+
+    li {
+        margin-bottom: 8px;
+    }
+
+    .achievement-category {
+        font-weight: bold;
+        margin-top: 15px;
+        display: block;
+        text-decoration: underline;
+    }
+
+    .tech-list {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+    }
+
+        .tech-list li {
+            background: #f4f4f4;
+            padding: 5px 12px;
+            margin: 5px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            border: 1px solid #ddd;
+        }
+</style>
+
+<div class="modal-header">
+    <h5 class="modal-title">@Model.Position - @Model.Company</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+    <p style="white-space: pre-line;">@Html.Raw(Model.KeyResponsibilities)</p>
+
+    
+</div>

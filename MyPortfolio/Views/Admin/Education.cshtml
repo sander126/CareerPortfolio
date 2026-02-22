@@ -1,0 +1,108 @@
+﻿@model IEnumerable<MyPortfolio.Models.Education>
+
+<style>
+    .nav-link {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+    }
+    /* Ensures the toast stays on top of other elements */
+    .toast-container {
+        z-index: 1055;
+    }
+</style>
+ 
+
+<div class="cointainer">
+
+    @await Html.PartialAsync("_AdminNav")
+
+    <div class="mb-3 mt-3">
+        <a class="btn btn-success" href="/admin/createeducation">
+        Add Education
+        </a>
+</div>
+
+<table class="table table-responsive table-bordered">
+    <thead>
+        <tr>
+            <th>Institution</th>
+            <th>Address</th>
+            <th>Degree</th>
+            <th>Course</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null && Model.Any())
+        {
+            foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Institution</td>
+                    <td>@item.Address</td>
+                    <td>@item.Degree</td>
+                    <td>@item.Course</td>
+                    <td>@(item.StartDate?.ToString("MMM dd, yyyy") ?? "")</td>
+                    <td>@(item.EndDate?.ToString("MMM dd, yyyy") ?? "")</td>
+                    <td class="text-center">
+                        <a asp-action="EditEducation" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary" title="Edit">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                onclick="confirmDelete(@item.Id,'@item.Institution')" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+    {
+                <tr>
+                    <td colspan="7" class="text-center">No records found.</td>
+                </tr>
+    }
+    </tbody>
+</table>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="bi bi-exclamation-triangle"></i> Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the record for <strong id="deleteTargetName"></strong>?</p>
+                <p class="text-danger small mb-0">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                <form asp-action="DeleteEducation" method="post">
+                    <input type="hidden" name="id" id="deleteId" />
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(id, name) {
+            // Set the hidden input ID
+            document.getElementById('deleteId').value = id;
+            // Set the text to show the user which company they are deleting
+            document.getElementById('deleteTargetName').innerText = name;
+            // Show the modal
+            var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            myModal.show();
+        }
+    </script>
+}

@@ -1,0 +1,48 @@
+﻿@model MyPortfolio.Models.Skill
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Edit Skill</h3>
+        </div>
+        <form asp-action="EditSkill" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Expertise" class="form-label fw-bold">Expertise *</label>
+                        <input asp-for="Expertise" class="form-control" placeholder="Enter Expertise name" />
+                        <span asp-validation-for="Expertise" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Rating" class="form-label fw-bold">Rating</label>
+                        <input asp-for="Rating" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="SkillType" class="form-label fw-bold">Skill Type</label>
+                        <select asp-for="SkillType" class="form-select">
+                            <option value="">-- Select Type --</option>
+                            <option value="Soft Skill">Soft Skill</option>
+                            <option value="Technical Skill">Technical Skill</option>
+                        </select>
+                        <span asp-validation-for="SkillType" class="text-danger small"></span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2">
+                <a asp-action="Skill" class="btn btn-secondary">Close</a>
+                <button type="submit" class="btn btn-primary">Save Skill</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
