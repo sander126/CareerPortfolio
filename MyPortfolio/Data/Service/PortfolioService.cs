@@ -83,9 +83,10 @@ namespace MyPortfolio.Services
             }
         }
 
+        //Education related methods
         public async Task<List<Education>> GetAllEducationAsync()
         {
-            return await _context.Education.ToListAsync();
+            return await _context.Education.FirstOrDefaultAsync() != null ? await _context.Education.ToListAsync() : new List<Education>();
         }
 
         public async Task CreateEducationAsync(Education education)

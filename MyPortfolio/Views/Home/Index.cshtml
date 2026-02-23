@@ -1,6 +1,7 @@
 ﻿@model MyPortfolio.ViewModels.HomeIndexViewModel
 @{
-    ViewData["Title"] = "Home";
+    var title = "Home - Christian Dave Aquino";
+    ViewData["Title"] = title;
 }
 <style>
     .main-name {
@@ -26,6 +27,13 @@
         background-repeat: no-repeat;
     }
 
+    #education {
+        background-image: url('https://www.slu.edu.ph/wp-content/uploads/2022/08/IMG_0042-scaled.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
     #side-navbar {
         position: fixed;
         top: 50%;
@@ -33,8 +41,8 @@
         transform: translateY(-50%);
         display: flex;
         flex-direction: column;
-        background-color: #f8f9fa; /* light background */
-        border-radius: 0 8px 8px 0; /* rounded left corners */
+        background-color: #f8f9fa;
+        border-radius: 0 8px 8px 0;
         padding: 0.5rem;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
         z-index: 1000;
@@ -46,13 +54,13 @@
             align-items: center;
             text-decoration: none;
             margin: 0.5rem 0;
-            font-size: 1.5rem; /* bigger for cute icons */
+            font-size: 1.5rem;
             color: #333;
             transition: all 0.3s ease;
         }
 
             #side-navbar a:hover {
-                background-color: #ffc0cb; /* soft pink hover */
+                background-color: #ffc0cb;
                 color: red;
                 transform: scale(1.2);
                 border-radius: 50%;
@@ -88,7 +96,7 @@
     </div>
 </section>
 
-<section id="work" class="vh-100  d-flex align-items-center bg-secondary text-white">
+<section id="work" class="min-vh-100 d-flex align-items-center py-5 bg-dark text-white">
     <div class="container text-center">
         <h1 class="sectionHeader">Work Experience</h1>
         <div class="row justify-content-center">
@@ -97,10 +105,10 @@
 {
                 @foreach (var experience in Model.WorkExperiences)
                 {
-                    <div class="col">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
                         <div class="card h-100">
                             <div class="card-body">
-                                <img class="p-4 w-50 mx-auto d-block" src="@experience.CompanyLogoUrl">
+                                <img class="p-4 w-50 mx-auto d-block img-responsive" src="@experience.CompanyLogoUrl">
                                 <a class="" target="_blank" rel="noopener noreferrer" href="@experience.CompanyWebsite"><h5 class="card-title">@experience.Company</h5></a>
                                 <p class="card-text fw-bold">@experience.Position</p>
                                 <p class="card-text">
@@ -121,7 +129,7 @@
     </div>
 </section>
 
-<section id="freelance" class="vh-100 d-flex align-items-center bg-dark text-white">
+<section id="freelance" class="min-vh-100 d-flex align-items-center py-5 bg-dark text-white">
     <div class="container text-center">
         <h1 class="sectionHeader">Freelance Work</h1>
         <div class="row justify-content-center">
@@ -130,14 +138,16 @@
             {
                 @foreach (var experience in Model.FreelanceExperiences)
                 {
-                    <div class="col">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
                         <div class="card h-100">
                             <div class="card-body">
-                                <img class="p-4 w-50 mx-auto d-block" src="@experience.CompanyLogoUrl">
-                                <a class="" target="_blank" rel="noopener noreferrer" href="@experience.CompanyWebsite"><h5 class="card-title">@experience.Company</h5></a>
+                                <img class="p-4 w-50 mx-auto d-block img-responsive" src="@experience.CompanyLogoUrl">
+                                <a class="" target="_blank" rel="noopener noreferrer" href="@experience.CompanyWebsite">
+                                    <h5 class="card-title">@experience.Company</h5>
+                                </a>
                                 <p class="card-text fw-bold">@experience.Position</p>
                                 <p class="card-text">
-                                    @experience.StartDate - @(experience.EndDate.HasValue? experience.EndDate.Value.ToString("MMM yyyy") : "Present")
+                                    @experience.StartDate.ToString("MMM yyyy") - @(experience.EndDate.HasValue? experience.EndDate.Value.ToString("MMM yyyy") : "Present")
                                 </p>
                                 <hr />
                                 <button class="btn btn-primary" onclick="openExperience(@experience.Id)">Learn more</button>
@@ -150,15 +160,17 @@
             {
                 <p>No work experiences found.</p>
             }
-
-
         </div>
     </div>
 </section>
 
-<section id="education" class="vh-100 d-flex align-items-center bg-primary text-white">
+<section id="education" class="min-vh-100 d-flex align-items-start py-5 bg-dark text-white">
     <div class="container text-center">
-        <h1 class="sectionHeader">Education</h1>
+        <h1 class="sectionHeader text-black">Education</h1>
+        <img class="img-responsive" src="https://www.slu.edu.ph/wp-content/uploads/2023/10/SLU-Logo-with-Text.png">
+        <h3 class="text-black">BACHELOR OF SCIENCE IN</h3>
+        <h3 class="text-black">INFORMATION TECHNOLOGY</h3>
+
         </div>
     </section>
 

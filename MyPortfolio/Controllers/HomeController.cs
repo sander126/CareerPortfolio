@@ -23,7 +23,8 @@ namespace MyPortfolio.Controllers
             var model = new HomeIndexViewModel
             {
                 WorkExperiences = await _portfolioService.GetExperienceByType("Work"),
-                FreelanceExperiences = await _portfolioService.GetExperienceByType("Freelance")
+                FreelanceExperiences = await _portfolioService.GetExperienceByType("Freelance"),
+                Educations = await _portfolioService.GetAllEducationAsync()
             };
 
             return View(model);
