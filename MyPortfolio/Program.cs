@@ -1,14 +1,22 @@
 using Microsoft.EntityFrameworkCore;
 using MyPortfolio.Data;
 using MyPortfolio.Services;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddMicrosoftIdentityUI();
+
+builder.Services.AddRazorPages();
+
 builder.Services.AddDbContext<PortfolioAppContext>(options =>
     options.UseSqlServer(
+
         builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlServerOptionsAction: sqlOptions =>
         {
@@ -19,6 +27,9 @@ builder.Services.AddDbContext<PortfolioAppContext>(options =>
                 errorNumbersToAdd: null);
         }));
 builder.Services.AddScoped<IPortfolioService, PortfolioService>();
+builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "AzureAd");
+
+
 
 var app = builder.Build();
 
@@ -33,9 +44,12 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
