@@ -29,12 +29,12 @@
     #side-navbar {
         position: fixed;
         top: 50%;
-        right: 0;
+        left: 0;
         transform: translateY(-50%);
         display: flex;
         flex-direction: column;
         background-color: #f8f9fa; /* light background */
-        border-radius: 8px 0 0 8px; /* rounded left corners */
+        border-radius: 0 8px 8px 0; /* rounded left corners */
         padding: 0.5rem;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
         z-index: 1000;
@@ -53,16 +53,25 @@
 
             #side-navbar a:hover {
                 background-color: #ffc0cb; /* soft pink hover */
-                color: #fff;
+                color: red;
                 transform: scale(1.2);
                 border-radius: 50%;
             }
 </style>
 
 <nav id="side-navbar">
-    <a href="#profile" title="Profile">👤</a>
-    <a href="#work" title="Work Experience">💼</a>
-    <a href="#freelance" title="Freelance Experience">🖋️</a>
+    <a href="#profile" title="Profile">
+        <i class="fa-solid fa-user"></i>
+    </a>
+    <a href="#work" title="Work Experience">
+        <i class="fa-solid fa-briefcase"></i>
+    </a>
+    <a href="#freelance" title="Freelance Experience">
+        <i class="fa-solid fa-pen-nib"></i>
+    </a>
+    <a href="#education" title="Education">
+        <i class="fa-solid fa-graduation-cap"></i>
+    </a>
 </nav>
 
 <section id="profile" class="vh-100 d-flex align-items-center">
@@ -146,6 +155,12 @@
         </div>
     </div>
 </section>
+
+<section id="education" class="vh-100 d-flex align-items-center bg-primary text-white">
+    <div class="container text-center">
+        <h1 class="sectionHeader">Education</h1>
+        </div>
+    </section>
 
 <div class="modal fade" id="experienceModal" tabindex="-1">
     <div class="modal-dialog modal-lg">

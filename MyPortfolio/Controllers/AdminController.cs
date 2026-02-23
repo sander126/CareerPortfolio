@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyPortfolio.Models;
 using MyPortfolio.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 public class AdminController : Controller
 {
     private readonly IPortfolioService _portfolioService;
